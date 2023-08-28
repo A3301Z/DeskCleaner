@@ -2,6 +2,7 @@ package org.example;
 
 public class Main {
 	public static void main(String[] args) {
-		Cleaner.clean();
+		String directory = "C:\\Users\\mrart\\Рабочий стол";
+		Cleaner.clean(directory);
 	}
 }

@@ -3,43 +3,50 @@ package org.example;
 import java.io.*;
 
 public class Cleaner {
-	public static void clean() {
-		String fileExtension = "";
-		String filesDir = "C:\\Users\\mrart\\Рабочий стол";
-		File file = new File(filesDir);
-		File newFileDir = new File(filesDir + "\\New Folder for " + fileExtension);
-
-		if (!newFileDir.exists() && newFileDir.mkdir()) {
-			System.out.println("Директория успешно создана.");
-		} else {
-			throw new RuntimeException("По какой то причине директория не была создана.");
-		}
-
-		try(FileInputStream reader = new FileInputStream(file);
-		    FileOutputStream writer = new FileOutputStream(newFileDir)) {
-
-			byte[] buffer = new byte[65536];
-
-			if (getJpgFilesFromFolder(file).length != 0) {
-				while (reader.available() > 0 && file.getName().endsWith("txt")) {
-					int realSize = reader.read(buffer);
-					writer.write(buffer, 0, realSize);
-				}
+	public static void clean(String directory) {
+		File filesDirectory = new File(directory);
+		File newDirectory = new File(newDirectory(directory));
+		for (File file : getImagesFromFolder(filesDirectory)) {
+			try {
+				copyFile(file.getPath(), new File(newDirectory, file.getName()).getPath());
+				System.out.println("Файл успешно копирован!");
+				file.delete();
+				System.out.println("Старый файл удалён.");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			throw new RuntimeException("Файл не найден.");
 		}
-
 	}
 
-	public static File[] getJpgFilesFromFolder(File folder) {
-		File[] jpgFiles = folder.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File dir) {
-				String name = dir.getName();
-				return name.toLowerCase().endsWith(".jpg");
-			}
+	public static File[] getImagesFromFolder(File folder) {
+		return folder.listFiles(dir -> {
+			String name = dir.getName();
+			return name.toLowerCase().endsWith(".jpg")
+					|| name.toLowerCase().endsWith(".png")
+					|| name.toLowerCase().endsWith(".jpeg")
+					|| name.toLowerCase().endsWith(".heic");
 		});
-		return jpgFiles;
+	}
+
+	public static String newDirectory(String oldDirectory) {
+		File newDirectory = new File(oldDirectory + "\\" + "Изображения");
+		if (!newDirectory.exists() && newDirectory.mkdir()) {
+			System.out.println("Директория успешно создана.");
+		} else {
+			System.out.println("Директория уже существует.");
+		}
+		return newDirectory.getPath();
+	}
+
+	public static void copyFile(String sourcePath, String targetPath) throws IOException {
+		try (FileInputStream inputStream = new FileInputStream(sourcePath);
+		     FileOutputStream outputStream = new FileOutputStream(targetPath)) {
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+		}
 	}
 }
