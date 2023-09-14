@@ -13,7 +13,7 @@ public class Cleaner {
 				file.delete();
 				System.out.println("Старый файл удалён.");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RuntimeException("Файл не был копирован/удалён.", e);
 			}
 		}
 	}
