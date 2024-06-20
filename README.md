@@ -1,3 +1,15 @@
-# DeskCleaner
-A program for quick sorting of images. 
-If a lot of files with the extension have accumulated on the desktop "jpg", ".png", "jpeg", or "heic", the program will quickly assemble them into one folder, which it will create itself.
+# Desktop Image Cleaner
+
+## Описание
+
+Desktop Image Cleaner - это приложение для автоматической сортировки изображений на рабочем столе. 
+Если рабочий стол заполнен изображениями, данное приложение поможет упорядочить их, переместив файлы с разными расширениями в соответствующие папки. 
+Программа создает эти папки на рабочем столе и перемещает файлы в соответствующие директории.
+
+## Основная функция
+
+- **Очистка рабочего стола**: Перемещение изображений с расширениями JPG, PNG, JPEG, HEIC в соответствующие папки на рабочем столе.
+
+## Используемые технологии
+
+- **Java**: Основной язык программирования.
